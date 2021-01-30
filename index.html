@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flight Booking</title>
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Roboto:wght@400;500;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <header class="container">
+        <nav>
+            <ul>
+                <li><a href="#">Home</a></li>
+                <li><a href="#">About Us</a></li>
+                <li><a href="#">Contact</a></li>
+                <li><a class="active" href="#">Sign Up</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main class="main-content container">
+        <div class="booking-form">
+            <h3>Booking Flights</h3>
+            <div class="input-group">
+                <label for="">Flying From</label>
+                <input class="inp-style" type="text" name="" placeholder="Dhaka, Bangladesh" id="fromText">
+            </div>
+            <div class="input-group">
+                <label for="">Flying To</label>
+                <input class="inp-style" type="text" name="" placeholder="New York, United States" id="toText">
+            </div>
+            <div class="inputs">
+                <div class="input-group">
+                    <label" for="">Departure</label>
+                        <input class="inp-style" type="date" name="" id="departureDate">
+                </div>
+                <div class="input-group">
+                    <label for="">Return</label>
+                    <input class="inp-style" type="date" name="" id="returnDate">
+                </div>
+            </div>
+            <div id="doubleFareNotification">
+                <small>Fare Will Be Counted <strong>Double</strong> For Both Departure & Return Tickets</small>
+            </div>
+            <div class="input-group f-class">
+                <div>
+                    <label for="">First Class ($<span id="firstClassTicket">150</span>)</label>
+                    <input class="inp-style inp-width" type="number" name="" placeholder="0"
+                        < id="countFirstClassTicket">
+                </div>
+                <div class="plus-minus-btn">
+                    <button id="increaseFirstClass">+</button> <button id="decreaseFirstClass">-</button>
+                </div>
+                <div class="IndividualBill">
+                    <label for="">$ <strong id="firstClassBill">0</strong> </label>
+                </div>
+            </div>
+
+            <div class="input-group f-class">
+                <div>
+                    <label for="">Economy ($<span id="economyTicket">100</span>)</label>
+                    <input class="inp-style inp-width" type="number" name="" placeholder="0"
+                        id="countEconomyTicket">
+                </div>
+                <div class="plus-minus-btn">
+                    <button id="increaseEconomy">+</button> <button id="decreaseEconomy">-</button>
+                </div>
+                <div class="IndividualBill">
+                    <label for="">$ <strong id="economyBill">0</strong> </label>
+                </div>
+            </div>
+            <div class="calculations">
+                <div class="amount">
+                    <div class="left">
+                        <p>Subtotal</p>
+                    </div>
+                    <div class="right">
+                        <p>$ <span id="subtotalPrice">0</span></p>
+                    </div>
+                </div>
+
+                <div class="amount">
+                    <div class="left">
+                        <p>Charge 10% VAT</p>
+                    </div>
+                    <div class="right">
+                        <p>$ <span id="vatPrice">0</span></p>
+                    </div>
+                </div>
+                <hr>
+                <div class="amount">
+                    <div class="left">
+                        <h4>Total</h4>
+                    </div>
+                    <div class="right">
+                        <p>$ <span id="totalPrice">0</span> </p>
+                    </div>
+                </div>
+            </div>
+            <button class="btn-style" type="submit" id="bookNowButton">Book Now</button>
+        </div>
+
+        <div class="booking-content">
+            <h1>discover <br> around the world</h1>
+            <p>Lorem ipsum dolor sit amet consectetur adipisicingelit. Provident voluptatibus quam fuga laborumalias
+                veniam libero autem quasi maxime ullam vero nama imi dolor, architecto ab facilis eaque deserunt nobise
+                voluptatibus quam</p>
+        </div>
+        
+        <script>
+            const airTicket = 0;
+            const firstClassTicket = parseFloat(document.getElementById('firstClassTicket').innerText);
+            const economyTicket = parseFloat(document.getElementById('economyTicket').innerText);
+            function hundleTicketChange() {
+                const firstClassBill = parseFloat(document.getElementById('firstClassBill').innerText);
+                const economyBill = parseFloat(document.getElementById('economyBill').innerText);
+                console.log(airTicket);
+                if (airTicket == 1) {
+                    document.getElementById('doubleFareNotification').style.display = 'block';
+                    firstClassBill *= 2;
+                    economyBill *= 2;
+                    document.getElementById('firstClassBill').innerText = firstClassBill;
+                    document.getElementById('economyBill').innerText = economyBill;
+                }
+                const subTotal = firstClassBill + economyBill;
+                const vat = 0.1 * subTotal;
+                const total = subTotal + vat;
+                document.getElementById('subtotalPrice').innerText = subTotal;
+                document.getElementById('vatPrice').innerText = vat;
+                document.getElementById('totalPrice').innerText = total;
+            }
+            function changingSeatCountsAndFare(numberOfSeatsOfTheClass, billOfTheClass, billPerSeatOfClass) {
+                const numberOfClassSeatsNode = document.getElementById(numberOfSeatsOfTheClass);
+                const numberOfClassSeatsString = numberOfClassSeatsNode.value;
+                const numberOfClassSeats = parseInt(numberOfClassSeatsString);
+                if (numberOfClassSeats < 0) {
+                    alert("Amount Of Seats Can't Be Negative!");
+                    numberOfClassSeatsNode.value = "";
+                    document.getElementById(billOfTheClass).innerText = (0);
+                    hundleTicketChange();
+                    return;
+                }
+                else if (isNaN(numberOfClassSeats)) {
+                    alert("Invalid Input");
+                    numberOfClassSeatsNode.value = "";
+                    document.getElementById(billOfTheClass).innerText = (0);
+                    hundleTicketChange();
+                    return;
+                }
+                else if (numberOfClassSeats == 0) {
+                    numberOfClassSeatsNode.value = "";
+                    document.getElementById(billOfTheClass).innerText = (0);
+                    hundleTicketChange();
+                    return;
+                }
+                else if (numberOfClassSeats * 10 != parseFloat(numberOfClassSeatsString) * 10) {
+                    alert("Inserted A Floating Number Please Insert Desired Integer Number!");
+                    numberOfClassSeatsNode.value = "";
+                    document.getElementById(billOfTheClass).innerText = (0);
+                    hundleTicketChange();
+                    return;
+                }
+                numberOfClassSeatsNode.value = numberOfClassSeats;
+                document.getElementById(billOfTheClass).innerText = (billPerSeatOfClass * numberOfClassSeats);
+                hundleTicketChange();
+            }
+            document.getElementById('countFirstClassTicket').addEventListener('change', function () {
+                changingSeatCountsAndFare('countFirstClassTicket', 'firstClassBill', firstClassTicket);
+            })
+            document.getElementById('countEconomyTicket').addEventListener('change', function () {
+                changingSeatCountsAndFare('countEconomyTicket', 'economyBill', economyTicket);
+            })
+            function changingByButton(plusOrMinus, numberOfSeatsOfTheClass, billOfTheClass, billPerSeatOfClass) {
+                const valueOfNumberOfFirstClassSeats = document.getElementById(numberOfSeatsOfTheClass).value;
+                if (plusOrMinus == '+') {
+                    if (valueOfNumberOfFirstClassSeats == "") {
+                        document.getElementById(numberOfSeatsOfTheClass).value = 1;
+                    }
+                    else {
+                        document.getElementById(numberOfSeatsOfTheClass).value++;
+                    }
+                }
+                else if (plusOrMinus == '-') {
+                    if (valueOfNumberOfFirstClassSeats == "") {
+                        document.getElementById(numberOfSeatsOfTheClass).value = 0;
+                    }
+                    else {
+                        if (valueOfNumberOfFirstClassSeats == 0) {
+
+                        }
+                        else {
+                            document.getElementById(numberOfSeatsOfTheClass).value--;
+                        }
+                    }
+                }
+                else {
+                    return;
+                }
+                changingSeatCountsAndFare(numberOfSeatsOfTheClass, billOfTheClass, billPerSeatOfClass);
+            }
+            document.getElementById('increaseFirstClass').addEventListener('click', function () {
+                changingByButton('+', 'countFirstClassTicket', 'firstClassBill', firstClassTicket)
+            })
+            document.getElementById('decreaseFirstClass').addEventListener('click', function () {
+                changingByButton('-', 'countFirstClassTicket', 'firstClassBill', firstClassTicket)
+            })
+            document.getElementById('increaseEconomy').addEventListener('click', function () {
+                changingByButton('+', 'countEconomyTicket', 'economyBill', economyTicket)
+            })
+            document.getElementById('decreaseEconomy').addEventListener('click', function () {
+                changingByButton('-', 'countEconomyTicket', 'economyBill', economyTicket)
+            })
+
+            document.getElementById('bookNowButton').addEventListener('click', function () {
+                const fromTextValue = document.getElementById('fromText').value;
+                const toTextValue = document.getElementById('toText').value;
+                const departureDateValue = document.getElementById('departureDate').value;
+                const returnDateValue = document.getElementById('returnDate').value;
+                const totalBill = document.getElementById('totalPrice').innerText;
+                const todayDate = new Date().toISOString().slice(0, 10);
+                if (fromTextValue == "") {
+                    alert('Please Input Flying From Location');
+                    return;
+                }
+                else if (toTextValue == "") {
+                    alert('Please Input Destination Location');
+                    return;
+                }
+                else if (fromTextValue == toTextValue) {
+                    alert("Departure and Destination Location can't be same");
+                    return;
+                }
+                else if (departureDateValue == "") {
+                    alert('Please Select Departure Date');
+                    return;
+                }
+                else if (todayDate > departureDateValue) {
+                    alert("Departure Date can't be From The Past");
+                    return;
+                }
+                else if (returnDateValue != "") {
+                    if (departureDateValue > returnDateValue) {
+                        alert("Return Date Can't Be Before The Departure Date");
+                    }
+                    else {
+                        airTicket = 1;
+                        document.getElementById('doubleFareNotification').style.display = 'block';
+                    }
+                }
+                else {
+                    airTicket = 0;
+                }
+            })
+        </script>
+
+        </section>
+
+</body>
+
+</html>
